@@ -5370,4 +5370,33 @@ function stopPromoAutoplay() {
   }
 }
 
+// ======================================
+// MOBILE MENU TOGGLE
+// ======================================
+
+window.toggleMobileMenu = function(show) {
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const hamburger = document.querySelector('.hamburger');
+  
+  if (!mobileMenu || !mobileMenuOverlay) return;
+  
+  // If show is not provided, toggle current state
+  if (show === undefined) {
+    show = !mobileMenu.classList.contains('active');
+  }
+  
+  if (show) {
+    mobileMenu.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+  } else {
+    mobileMenu.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+};
+
 console.log("app.js loaded successfully!");
