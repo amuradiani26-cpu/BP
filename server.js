@@ -96,27 +96,29 @@ app.use((req, res, next) => {
   next();
 });
 
-// ????????? ????????????
+// Настройки безопасности
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         "default-src": ["'self'"],
-        "connect-src": ["'self'", "https://api.tbcbank.ge"],
-        "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://unpkg.com"],
+        "connect-src": ["'self'", "https://api.tbcbank.ge", "https://*.onrender.com", "wss://*"],
+        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://unpkg.com"],
         "script-src-attr": ["'unsafe-inline'"],
-        "style-src": ["'self'", "'unsafe-inline'", "https://unpkg.com"],
-        "img-src": ["'self'", "data:", "https:"],
-        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://fonts.googleapis.com"],
+        "style-src-elem": ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://fonts.googleapis.com"],
+        "img-src": ["'self'", "data:", "https:", "blob:"],
+        "font-src": ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "data:"],
+        "frame-src": ["'self'", "https://www.google.com"],
+        "media-src": ["'self'", "https:", "data:"],
       },
     },
   })
 );
 
-// ????????? CORS - ??????????
+// Настройки CORS
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://beautypass-website.onrender.com'],
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://beautypass-bp.onrender.com', 'https://beautypass.ge', 'https://www.beautypass.ge'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
