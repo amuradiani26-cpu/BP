@@ -1350,11 +1350,36 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ message: '???????? email ??? ??????' });
     }
     
-    // ?????????? 2FA ???
-    await send2FACode(user);
+    // Сразу логиним без 2FA
+    user.isEmailVerified = true;
+    await user.save();
+    
+    // ??????? JWT ?????
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    
+    const userPayload = { 
+      id: user._id.toString(), 
+      _id: user._id.toString(),
+      email: user.email, 
+      login: user.login, 
+      phone: user.phone, 
+      firstName: user.firstName, 
+      lastName: user.lastName, 
+      balance: user.balance,
+      beautyPoints: user.beautyPoints,
+      purchases: user.purchases, 
+      isAdmin: user.isAdmin, 
+      userType: user.userType,
+      salonName: user.salonName,
+      address: user.address,
+      salonDescription: user.salonDescription,
+      createdAt: user.createdAt
+    };
     
     res.json({ 
-      message: '??????? ??? ?????????????, ???????????? ?? ??? email.' 
+      message: '???? ???????? ???????!', 
+      token, 
+      user: userPayload 
     });
   } catch (error) {
     console.error(error);
