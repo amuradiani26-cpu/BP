@@ -1,0 +1,1180 @@
+﻿<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Beauty Pass - Your gateway to unlimited beauty services. One card, endless possibilities at premium partner salons.">
+  <meta name="keywords" content="beauty pass, salon booking, beauty services, spa, nails, hair, makeup">
+  <meta name="theme-color" content="#7c3aed">
+  <!-- Updated: 2025-11-14 -->
+  <title>One Card, Unlimited Beauty</title>
+
+  <!-- Preconnect to improve performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts for Georgian support - Condensed versions -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css?v=20251224-DESIGN-UPDATE">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💅</text></svg>">
+  
+  <!-- Preload Logo -->
+  <!-- Logo is text-based now -->
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p data-en="Loading Beauty Pass..." data-ka="იტვირთება Beauty Pass...">იტვირთება Beauty Pass...</p>
+  </div>
+
+  <!-- Header Navigation -->
+  <header id="mainHeader">
+    <nav class="navbar">
+      <div class="container nav-container">
+        <div class="logo" onclick="window.location.hash = '#home'" style="cursor: pointer;">
+          <span class="logo-text">BeautyPass</span>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="nav-links">
+          <a href="javascript:void(0)" onclick="navigate('#home')" data-en="Home" data-ka="მთავარი">მთავარი</a>
+          <a href="javascript:void(0)" onclick="scrollToMap()" data-en="Salons" data-ka="სალონები">სალონები</a>
+          <a href="javascript:void(0)" onclick="navigate('#tariffs')" data-en="Tariffs" data-ka="ტარიფები">ტარიფები</a>
+          <a href="javascript:void(0)" onclick="showAboutModal()" data-en="About Us" data-ka="ჩვენ შესახებ">ჩვენ შესახებ</a>
+          <a href="javascript:void(0)" onclick="navigate('#contact')" data-en="Contact" data-ka="კონტაქტი">კონტაქტი</a>
+          <a href="javascript:void(0)" onclick="if(typeof CommunityApp !== 'undefined') CommunityApp.show();" class="community-nav-link" data-en="Community" data-ka="საზოგადოება">
+            <span>👥</span> <span data-en="Community" data-ka="საზოგადოება">Community</span>
+          </a>
+        </div>
+        
+        <!-- Desktop Auth Buttons -->
+        <div class="auth-actions" id="authActions">
+          <button class="btn btn-outline" onclick="showLoginForm()">შესვლა</button>
+          <button class="btn btn-primary" onclick="showRegisterForm()">რეგისტრაცია</button>
+        </div>
+        
+        <!-- Profile Circle (shown when logged in) -->
+        <div class="profile-circle" id="profileCircle" style="display:none;">
+          <div class="profile-avatar" id="profileAvatar" onclick="toggleProfileDropdown()"></div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-menu">
+              <a href="javascript:void(0)" class="profile-dropdown-item" id="profileDashboardLink">
+                <span>📊</span>
+                <span id="profileDashboardText">Dashboard</span>
+              </a>
+              <a href="javascript:void(0)" class="profile-dropdown-item" onclick="if(typeof toggleMessenger === 'function') toggleMessenger(); toggleProfileDropdown();">
+                <span>💬</span>
+                <span>Messages</span>
+              </a>
+              <div class="profile-dropdown-divider"></div>
+              <a href="javascript:void(0)" class="profile-dropdown-item profile-dropdown-logout" id="profileLogoutLink">
+                <span>🚪</span>
+                <span>Logout</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Desktop Language Switcher -->
+        <div class="language-switcher">
+          <button class="lang-btn" onclick="switchLanguage('ka')" data-lang="ka">
+            <span class="lang-text">KA</span>
+          </button>
+          <button class="lang-btn" onclick="switchLanguage('en')" data-lang="en">
+            <span class="lang-text">EN</span>
+          </button>
+        </div>
+        
+        <!-- Hamburger Button -->
+        <button class="hamburger" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <div class="logo" onclick="window.location.hash = '#home'; toggleMobileMenu(false);" style="cursor: pointer;">
+          <span class="logo-text">BeautyPass</span>
+        </div>
+        <button class="mobile-close" onclick="toggleMobileMenu()">✕</button>
+      </div>
+      
+      <!-- Mobile User Profile -->
+      <div class="mobile-menu-top">
+        <div id="mobileAuthActionsTop"></div>
+      </div>
+      
+      <nav class="mobile-nav-links">
+        <div class="mobile-menu-section">
+          <a href="javascript:void(0)" onclick="navigate('#home'); toggleMobileMenu()">მთავარი / Home</a>
+          <a href="javascript:void(0)" onclick="scrollToMap(); toggleMobileMenu()" data-en="Salons" data-ka="სალონები">სალონები / Salons</a>
+          <a href="javascript:void(0)" onclick="navigate('#tariffs'); toggleMobileMenu()">ტარიფები / Tariffs</a>
+          <a href="javascript:void(0)" onclick="navigate('#services'); toggleMobileMenu()">სერვისები / Services</a>
+          <a href="#contact" onclick="toggleMobileMenu()">კონტაქტი / Contact</a>
+        </div>
+        
+        <div class="mobile-menu-divider"></div>
+        
+        <div class="mobile-menu-section">
+          <span class="mobile-menu-label">სწრაფი ლინკები / Quick Links</span>
+          <a href="javascript:void(0)" onclick="handleProfileClick(); toggleMobileMenu();">ჩემი პროფილი / My Profile</a>
+        </div>
+        
+        <div class="mobile-menu-divider"></div>
+        
+        <div class="mobile-menu-section">
+          <span class="mobile-menu-label">ინფორმაცია / Information</span>
+          <a href="javascript:void(0)" onclick="showAboutModal(); toggleMobileMenu();">ჩვენ შესახებ / About Us</a>
+          <a href="#policy" onclick="toggleMobileMenu()">კონფიდენციალურობა / Privacy</a>
+          <a href="#refund" onclick="toggleMobileMenu()">დაბრუნება / Refund</a>
+        </div>
+        
+        <div class="mobile-menu-divider"></div>
+        
+        <div class="mobile-menu-section">
+          <span class="mobile-menu-label">ენა / Language</span>
+          <div class="mobile-language-switcher">
+            <button class="lang-btn mobile-lang-btn" onclick="switchLanguage('ka')" data-lang="ka">
+              <span class="lang-text">🇬🇪 ქართული</span>
+            </button>
+            <button class="lang-btn mobile-lang-btn" onclick="switchLanguage('en')" data-lang="en">
+              <span class="lang-text">🇬🇧 English</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Mobile Logout Button -->
+      <div class="mobile-menu-footer" id="mobileLogoutSection" style="display: none;">
+        <button class="btn btn-outline btn-block mobile-logout-btn" onclick="logout(); toggleMobileMenu();">
+          <span data-ka="გამოსვლა" data-en="Logout">გამოსვლა / Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Home Section -->
+    <section id="home" class="page-section active">
+      <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+          <div class="hero-badges">
+            <span class="hero-badge">🏆 Top Rated</span>
+            <span class="hero-badge">⚡ Fast Booking</span>
+            <span class="hero-badge">💎 Premium Quality</span>
+          </div>
+          <h1 class="hero-title" data-en="One Card — Unlimited Beauty" data-ka="ერთი ბარათი — შეუზღუდავი სილამაზე">ერთი ბარათი — შეუზღუდავი სილამაზე<br><small class="hero-translation">One Card — Unlimited Beauty</small></h1>
+          <p class="hero-subtitle" data-en="Unlimited access to premium salons. Choose your tariff and start your beauty journey." data-ka="შეუზღუდავი წვდომა პრემიუმ სალონებში. აირჩიე შენი ტარიფი და დაიწყე მოგზაურობა სილამაზის სამყაროში.">შეუზღუდავი წვდომა პრემიუმ სალონებში. აირჩიე შენი ტარიფი და დაიწყე მოგზაურობა სილამაზის სამყაროში.<br><em class="hero-translation">Unlimited access to premium salons. Choose your tariff and start your beauty journey.</em></p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large" onclick="navigate('#tariffs')">
+              <span data-en="View Tariffs" data-ka="ტარიფების ნახვა">ტარიფების ნახვა / View Tariffs</span>
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn btn-outline btn-large" onclick="navigate('#about')">
+              <span data-en="Learn More" data-ka="გაიგე მეტი">გაიგე მეტი / Learn More</span>
+            </button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item stat-animated">
+              <div class="stat-icon">👥</div>
+              <span class="stat-number" id="stat-clients" data-count="0">0</span><span class="stat-plus">+</span>
+              <span class="stat-label" data-en="Happy Clients" data-ka="კმაყოფილი კლიენტი">კმაყოფილი კლიენტი</span>
+              <div class="stat-progress">
+                <div class="stat-progress-bar" id="progress-clients" data-progress="0"></div>
+              </div>
+            </div>
+            <div class="stat-item stat-animated">
+              <div class="stat-icon">💎</div>
+              <span class="stat-number" id="stat-salons" data-count="0">0</span><span class="stat-plus">+</span>
+              <span class="stat-label" data-en="Partner Salons" data-ka="პარტნიორი სალონი">პარტნიორი სალონი</span>
+              <div class="stat-progress">
+                <div class="stat-progress-bar" id="progress-salons" data-progress="0"></div>
+              </div>
+            </div>
+            <div class="stat-item stat-animated">
+              <div class="stat-icon">✨</div>
+              <span class="stat-number" id="stat-bookings" data-count="0">0</span><span class="stat-plus">+</span>
+              <span class="stat-label" data-en="Completed Visits" data-ka="დასრულებული ვიზიტი">დასრულებული ვიზიტი</span>
+              <div class="stat-progress">
+                <div class="stat-progress-bar" id="progress-bookings" data-progress="0"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo Carousel -->
+        <div class="promo-carousel-container">
+          <div class="promo-carousel" id="promoCarousel">
+            <!-- Slide 1 - First in Georgia -->
+            <div class="promo-slide active" style="background: linear-gradient(135deg, #e84393, #a29bfe);">
+              <div class="promo-content">
+                <span class="promo-badge">🇬🇪 ექსკლუზივი</span>
+                <h3>პირველად საქართველოში!</h3>
+                <p>სილამაზის სერვისების <strong>ერთიანი პლატფორმა</strong> — დაჯავშნე, გადაიხადე, ისარგებლე!</p>
+                <button class="promo-btn" onclick="showRegisterForm()">შემოგვიერთდი →</button>
+              </div>
+              <div class="promo-visual">🚀✨</div>
+            </div>
+            
+            <!-- Slide 2 - Free Registration -->
+            <div class="promo-slide" style="background: linear-gradient(135deg, #6c5ce7, #00cec9);">
+              <div class="promo-content">
+                <span class="promo-badge">🎁 საჩუქარი</span>
+                <h3>უფასო რეგისტრაცია</h3>
+                <p>დარეგისტრირდი დღეს და მიიღე <strong>50 BP საჩუქრად!</strong></p>
+                <button class="promo-btn" onclick="showRegisterForm()">დარეგისტრირდი →</button>
+              </div>
+              <div class="promo-visual">💅💫</div>
+            </div>
+            
+            <!-- Slide 3 - Premium Package -->
+            <div class="promo-slide" style="background: linear-gradient(135deg, #fd79a8, #fdcb6e);">
+              <div class="promo-content">
+                <span class="promo-badge">💎 VIP</span>
+                <h3>Premium პაკეტი</h3>
+                <p>300 BP თვეში — <strong>შეუზღუდავი სილამაზე!</strong></p>
+                <button class="promo-btn" onclick="navigate('#tariffs')">ნახე ტარიფები →</button>
+              </div>
+              <div class="promo-visual">👑🌟</div>
+            </div>
+            
+            <!-- Slide 4 - Invite Friend -->
+            <div class="promo-slide" style="background: linear-gradient(135deg, #00b894, #55a3ff);">
+              <div class="promo-content">
+                <span class="promo-badge">👯 მეგობარი</span>
+                <h3>მოიწვიე მეგობარი</h3>
+                <p>თითოეულ მოწვეულზე მიიღე <strong>25 BP ბონუსი!</strong></p>
+                <button class="promo-btn" onclick="navigate('#client')">მოიწვიე →</button>
+              </div>
+              <div class="promo-visual">🎉💖</div>
+            </div>
+          </div>
+          
+          <!-- Carousel Controls -->
+          <div class="promo-controls">
+            <button class="promo-arrow prev" onclick="movePromoSlide(-1)">❮</button>
+            <div class="promo-dots" id="promoDots"></div>
+            <button class="promo-arrow next" onclick="movePromoSlide(1)">❯</button>
+          </div>
+        </div>
+
+        <!-- Interactive Tbilisi Map with Filters -->
+        <div class="map-section" id="mapSection">
+          <div class="section-header">
+            <h2 data-en="Find Salons on Map" data-ka="იპოვე სალონები რუკაზე">🗺️ იპოვე სალონები რუკაზე / Find Salons on Map</h2>
+            <p data-en="Interactive map of our partner salons in Tbilisi" data-ka="თბილისში ჩვენი პარტნიორი სალონების ინტერაქტიული რუკა">თბილისში ჩვენი პარტნიორი სალონების ინტერაქტიული რუკა / Interactive map of our partner salons in Tbilisi</p>
+          </div>
+          
+          <!-- Map Filters -->
+          <div class="map-filters-bar">
+            <div class="map-search-box">
+              <input type="text" id="mapSearchInput" class="map-search" placeholder="🔍 მოძებნე სალონი / Search salon..." oninput="handleMapSearch()">
+            </div>
+            <div class="category-pills" id="categoryPills">
+              <button class="category-pill active" data-category="all" onclick="handleCategoryFilter('all', this)">
+                🌟 ყველა / All
+              </button>
+              <button class="category-pill" data-category="nails" onclick="handleCategoryFilter('nails', this)">
+                💅 ფრჩხილები / Nails
+              </button>
+              <button class="category-pill" data-category="hair" onclick="handleCategoryFilter('hair', this)">
+                💇 თმა / Hair
+              </button>
+              <button class="category-pill" data-category="face" onclick="handleCategoryFilter('face', this)">
+                🧖 სახე / Face
+              </button>
+              <button class="category-pill" data-category="body" onclick="handleCategoryFilter('body', this)">
+                💆 სხეული / Body
+              </button>
+              <button class="category-pill" data-category="makeup" onclick="handleCategoryFilter('makeup', this)">
+                💄 მაკიაჟი / Makeup
+              </button>
+            </div>
+            <div class="rating-filter">
+              <select id="ratingFilter" class="filter-select" onchange="handleRatingFilter()">
+                <option value="">⭐ ყველა რეიტინგი / All ratings</option>
+                <option value="4">⭐ 4+ რეიტინგი</option>
+                <option value="4.5">⭐ 4.5+ რეიტინგი</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Map + Sidebar Layout -->
+          <div class="map-section-container">
+            <div class="map-wrapper">
+              <div class="map-overlay-title">
+                <h3>💅 Beauty Pass პარტნიორები</h3>
+              </div>
+              <div id="tbilisiMap"></div>
+            </div>
+            
+            <!-- Sidebar with Salon List -->
+            <div class="map-sidebar">
+              <h3>📍 სალონების სია / Salons List</h3>
+              <div id="mapSalonsList" class="salon-list">
+                <!-- Populated by JavaScript -->
+                <div class="loading-salons">
+                  <div class="loading-spinner-small"></div>
+                  <p>იტვირთება... / Loading...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tariffs Section -->
+        <div class="section-header" id="tariffs">
+          <h2 data-en="Tariffs" data-ka="ტარიფები">ტარიფები / Tariffs</h2>
+          <p data-en="Choose the plan that suits you" data-ka="აირჩიე შენთვის შესაფერისი გეგმა">აირჩიე შენთვის შესაფერისი გეგმა / Choose the plan that suits you</p>
+        </div>
+        <div class="tariffs-grid" id="tariffsGrid"></div>
+      </div>
+    </section>
+
+    <!-- About Modal (Popup) -->
+    <div class="about-modal" id="aboutModal">
+      <div class="about-modal-overlay" onclick="closeAboutModal()"></div>
+      <div class="about-modal-content">
+        <button class="about-modal-close" onclick="closeAboutModal()">&times;</button>
+        
+        <div class="about-modal-header">
+          <h2 data-en="✨ About Us — Beauty Pass" data-ka="✨ ჩვენ შესახებ — Beauty Pass">✨ ჩვენ შესახებ — Beauty Pass</h2>
+        </div>
+        
+        <div class="about-modal-body">
+          <p class="about-intro" data-en="Beauty Pass was born from one simple idea: <strong>to make beauty accessible.</strong>" data-ka="Beauty Pass დაიბადა ერთი მარტივი იდეიდან: <strong>სილამაზე ყველასთვის ხელმისაწვდომი გახდეს.</strong>">
+            Beauty Pass დაიბადა ერთი მარტივი იდეიდან: <strong>სილამაზე ყველასთვის ხელმისაწვდომი გახდეს.</strong>
+          </p>
+          <p data-en="We believe that self-care is not a luxury — it's a lifestyle." data-ka="ჩვენ გვჯერა, რომ თავის მოვლა ფუფუნება კი არა — ცხოვრების წესია.">ჩვენ გვჯერა, რომ თავის მოვლა ფუფუნება კი არა — ცხოვრების წესია.</p>
+          
+          <h3 data-en="💎 Our Mission" data-ka="💎 ჩვენი მისია">💎 ჩვენი მისია</h3>
+          <p data-en="Our mission is to connect you with the best partner salons across Georgia through one elegant digital platform." data-ka="ჩვენი მისიაა დაგაკავშიროთ საქართველოს საუკეთესო პარტნიორ სალონებთან ერთი ელეგანტური ციფრული პლატფორმის საშუალებით.">ჩვენი მისიაა დაგაკავშიროთ საქართველოს საუკეთესო პარტნიორ სალონებთან ერთი ელეგანტური ციფრული პლატფორმის საშუალებით.</p>
+          <p data-en="With your Beauty Pass, you can find top salons, choose premium procedures, easily book and enjoy a journey in the world of beauty." data-ka="Beauty Pass-ით თქვენ შეგიძლიათ იპოვოთ საუკეთესო სალონები, აირჩიოთ პრემიუმ პროცედურები, მარტივად დაჯავშნოთ და დატკბეთ სილამაზის სამყაროში მოგზაურობით.">Beauty Pass-ით თქვენ შეგიძლიათ იპოვოთ საუკეთესო სალონები, აირჩიოთ პრემიუმ პროცედურები, მარტივად დაჯავშნოთ და დატკბეთ სილამაზის სამყაროში მოგზაურობით.</p>
+          
+          <h3 data-en="🌟 What makes us different" data-ka="🌟 რა გამოგვარჩევს">🌟 რა გამოგვარჩევს</h3>
+          <div class="about-values-grid">
+            <div class="about-value">
+              <span class="value-icon">💰</span>
+              <strong data-en="Transparency" data-ka="გამჭვირვალობა">გამჭვირვალობა</strong>
+              <p data-en="Clear pricing in Beauty Points (BP)" data-ka="მკაფიო ფასები Beauty Points-ში (BP)">მკაფიო ფასები Beauty Points-ში (BP)</p>
+            </div>
+            <div class="about-value">
+              <span class="value-icon">🔄</span>
+              <strong data-en="Flexibility" data-ka="მოქნილობა">მოქნილობა</strong>
+              <p data-en="Book, cancel, or reschedule anytime" data-ka="დაჯავშნეთ, გააუქმეთ ან გადაანაცვლეთ ნებისმიერ დროს">დაჯავშნეთ, გააუქმეთ ან გადაანაცვლეთ ნებისმიერ დროს</p>
+            </div>
+            <div class="about-value">
+              <span class="value-icon">🚀</span>
+              <strong data-en="Innovation" data-ka="ინოვაცია">ინოვაცია</strong>
+              <p data-en="Secure profiles & loyalty rewards" data-ka="უსაფრთხო პროფილები და ლოიალობის ჯილდოები">უსაფრთხო პროფილები და ლოიალობის ჯილდოები</p>
+            </div>
+            <div class="about-value">
+              <span class="value-icon">🤝</span>
+              <strong data-en="Community" data-ka="საზოგადოება">საზოგადოება</strong>
+              <p data-en="Quality-selected partner salons" data-ka="ხარისხით შერჩეული პარტნიორი სალონები">ხარისხით შერჩეული პარტნიორი სალონები</p>
+            </div>
+          </div>
+          
+          <div class="about-cta-box">
+            <p class="tagline" data-en="Beauty Pass — One Card, Unlimited Possibilities." data-ka="Beauty Pass — ერთი ბარათი, შეუზღუდავი შესაძლებლობები.">Beauty Pass — ერთი ბარათი, შეუზღუდავი შესაძლებლობები.</p>
+            <button class="btn btn-primary" onclick="closeAboutModal(); navigate('#tariffs');" data-en="Get Your Pass Now 💅" data-ka="მიიღე შენი პასი ახლავე 💅">
+              მიიღე შენი პასი ახლავე 💅
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Login/Profile Section -->
+    <section id="client" class="page-section">
+      <div class="container">
+        
+        <!-- LOGIN CARD -->
+        <div class="auth-card" id="loginFormCard">
+          <div class="card-header">
+            <h2 data-en="Welcome Back" data-ka="მოგესალმებით">მოგესალმებით / Welcome Back</h2>
+            <p data-en="Sign in to your account" data-ka="შედით თქვენს ანგარიშში">შედით თქვენს ანგარიშში / Sign in to your account</p>
+          </div>
+          <form class="auth-form" id="loginForm" onsubmit="event.preventDefault(); loginClient();">
+            <div class="form-group">
+              <label for="loginEmail" data-en="Email" data-ka="ელფოსტა">ელფოსტა / Email</label>
+              <input type="email" id="loginEmail" class="form-input" placeholder="example@mail.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="loginPassword" data-en="Password" data-ka="პაროლი">პაროლი / Password</label>
+              <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn" data-en="Sign In" data-ka="შესვლა">შესვლა / Sign In</button>
+            </div>
+            <div class="auth-switch">
+              <a href="javascript:void(0)" onclick="showForgotPasswordForm()" class="forgot-password-link" data-en="Forgot Password?" data-ka="დაგავიწყდათ პაროლი?">დაგავიწყდათ პაროლი? / Forgot Password?</a>
+            </div>
+            <div class="auth-switch">
+              <p data-en="Don't have an account?" data-ka="არ გაქვთ ანგარიში?">არ გაქვთ ანგარიში? / Don't have an account?</p>
+              <a href="javascript:void(0)" onclick="showRegisterForm()" data-en="Register here" data-ka="დარეგისტრირდით აქ">დარეგისტრირდით აქ / Register here</a>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+              <button type="button" onclick="testBackendConnection()" class="btn btn-outline btn-sm" style="font-size: 0.8rem; opacity: 0.7;">
+                🔌 Test Server Connection
+              </button>
+              <div id="connectionStatus" style="font-size: 0.8rem; margin-top: 5px;"></div>
+            </div>
+          </form>
+        </div>
+
+        <!-- FORGOT PASSWORD CARD -->
+        <div class="auth-card" id="forgotPasswordCard" style="display: none;">
+          <div class="card-header">
+            <h2 data-en="Reset Password" data-ka="პაროლის აღდგენა">პაროლის აღდგენა / Reset Password</h2>
+            <p data-en="Enter your email to receive a code" data-ka="შეიყვანეთ ელფოსტა კოდის მისაღებად">შეიყვანეთ ელფოსტა კოდის მისაღებად</p>
+          </div>
+          <form class="auth-form" id="forgotPasswordForm" onsubmit="event.preventDefault(); requestPasswordReset();">
+            <div class="form-group">
+              <label for="forgotEmail" data-en="Email" data-ka="ელფოსტა">ელფოსტა / Email</label>
+              <input type="email" id="forgotEmail" class="form-input" placeholder="example@mail.com" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="forgotSubmitBtn" data-en="Send Code" data-ka="კოდის გაგზავნა">კოდის გაგზავნა / Send Code</button>
+            </div>
+            <div class="auth-switch">
+              <a href="javascript:void(0)" onclick="showLoginForm()" data-en="Back to Login" data-ka="უკან შესვლაზე">უკან შესვლაზე / Back to Login</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- RESET PASSWORD CARD -->
+        <div class="auth-card" id="resetPasswordCard" style="display: none;">
+          <div class="card-header">
+            <h2 data-en="New Password" data-ka="ახალი პაროლი">ახალი პაროლი / New Password</h2>
+            <p data-en="Enter code and new password" data-ka="შეიყვანეთ კოდი და ახალი პაროლი">შეიყვანეთ კოდი და ახალი პაროლი</p>
+          </div>
+          <form class="auth-form" id="resetPasswordForm" onsubmit="event.preventDefault(); completePasswordReset();">
+            <div class="form-group">
+              <label for="resetOtp" data-en="Verification Code" data-ka="დამადასტურებელი კოდი">დამადასტურებელი კოდი / Verification Code</label>
+              <input type="text" id="resetOtp" class="form-input" placeholder="123456" required maxlength="6" pattern="\d{6}">
+            </div>
+            <div class="form-group">
+              <label for="resetNewPassword" data-en="New Password" data-ka="ახალი პაროლი">ახალი პაროლი / New Password</label>
+              <input type="password" id="resetNewPassword" class="form-input" placeholder="Min 8 chars + special" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="resetSubmitBtn" data-en="Reset Password" data-ka="პაროლის შეცვლა">პაროლის შეცვლა / Reset Password</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- REGISTER CARD -->
+        <div class="auth-card" id="registerFormCard" style="display: none;">
+          <div class="card-header">
+            <h2 data-en="Create Account" data-ka="ანგარიშის შექმნა">ანგარიშის შექმნა / Create Account</h2>
+            <p data-en="Join Beauty Pass today" data-ka="შემოუერთდით Beauty Pass-ს დღესვე">შემოუერთდით Beauty Pass-ს დღესვე / Join Beauty Pass today</p>
+          </div>
+          <form class="auth-form" id="registerForm" onsubmit="event.preventDefault(); registerClient();">
+            <div class="form-group">
+              <label for="registerName" data-en="Full Name" data-ka="სახელი და გვარი">სახელი და გვარი / Full Name</label>
+              <input type="text" id="registerName" class="form-input" placeholder="თქვენი სახელი / Your Name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="registerEmail" data-en="Email" data-ka="ელფოსტა">ელფოსტა / Email</label>
+              <input type="email" id="registerEmail" class="form-input" placeholder="example@mail.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="registerPhone" data-en="Phone" data-ka="ტელეფონი">ტელეფონი / Phone</label>
+              <input type="tel" id="registerPhone" class="form-input" placeholder="+995 5XX XXX XXX" required autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="registerBirthDate" data-en="Birth Date" data-ka="დაბადების თარიღი">დაბადების თარიღი / Birth Date</label>
+              <input type="date" id="registerBirthDate" class="form-input" autocomplete="bday">
+            </div>
+            <div class="form-group">
+              <label for="registerPassword" data-en="Password" data-ka="პაროლი">პაროლი / Password</label>
+              <input type="password" id="registerPassword" class="form-input" placeholder="Min 8 chars + special" required autocomplete="new-password">
+              <small class="form-hint" data-en="Min 8 chars, 1 special char" data-ka="მინ. 8 სიმბოლო, 1 სპეციალური სიმბოლო">მინ. 8 სიმბოლო, 1 სპეციალური სიმბოლო / Min 8 chars, 1 special char</small>
+            </div>
+            <div class="form-group">
+              <label for="registerReferral" data-en="Referral Code (optional)" data-ka="რეფერალ კოდი (არასავალდებულო)">რეფერალ კოდი (არასავალდებულო) / Referral Code</label>
+              <input type="text" id="registerReferral" class="form-input" placeholder="BP-XXXX">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="registerSubmitBtn" data-en="Register" data-ka="რეგისტრაცია">რეგისტრაცია / Register</button>
+            </div>
+            <div class="auth-switch">
+              <p data-en="Already have an account?" data-ka="უკვე გაქვთ ანგარიში?">უკვე გაქვთ ანგარიში? / Already have an account?</p>
+              <a href="javascript:void(0)" onclick="showLoginForm()" data-en="Login here" data-ka="შედით აქ">შედით აქ / Login here</a>
+            </div>
+          </form>
+        </div>
+
+          <!-- 2FA Verification -->
+          <div class="auth-card" id="twofaCard" style="display: none;">
+            <div class="card-header">
+              <h2 data-en="Two-Factor Authentication" data-ka="ორფაქტორიანი ავტორიზაცია">ორფაქტორიანი ავტორიზაცია / Two-Factor Authentication</h2>
+              <p data-en="Enter the 6-digit code sent to your email" data-ka="შეიყვანეთ 6-ნიშნა კოდი, რომელიც გამოგზავნილია თქვენს ელფოსტაზე">შეიყვანეთ 6-ნიშნა კოდი, რომელიც გამოგზავნილია თქვენს ელფოსტაზე / Enter the 6-digit code sent to your email</p>
+            </div>
+            <div class="auth-form">
+              <div class="form-group">
+                <input type="text" id="otpCode" class="form-input text-center" placeholder="123456" maxlength="6" inputmode="numeric" style="font-size: 1.5rem; letter-spacing: 0.5rem;">
+                <div id="otpHint" class="form-hint" style="display: none;"></div>
+                <div id="otpTimer" class="form-hint" style="text-align: center; margin-top: 10px;"></div>
+              </div>
+              <div class="form-actions">
+              <button class="btn btn-primary btn-block" onclick="submit2FACode()" data-en="Verify" data-ka="დადასტურება">დადასტურება / Verify</button>
+                <button id="resendBtn" class="btn btn-outline btn-block" onclick="resend2FA()" data-en="Resend Code" data-ka="კოდის ხელახლა გაგზავნა">კოდის ხელახლა გაგზავნა / Resend Code</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Client Profile -->
+        <div class="profile-container" id="clientProfile" style="display: none;">
+          <div class="profile-header">
+            <div class="profile-info">
+              <h2 id="profileName">კლიენტი / Client</h2>
+              <p id="profileEmail" class="text-muted">email@example.com</p>
+            </div>
+            <button class="btn btn-outline" onclick="logoutClient()" data-en="Logout" data-ka="გამოსვლა">გამოსვლა / Logout</button>
+          </div>
+
+          <!-- Balance Cards -->
+          <div class="balance-cards-grid">
+            <div class="balance-card">
+              <div class="balance-icon">💳</div>
+              <div class="balance-info">
+                <span class="balance-label">GEL ბალანსი / Balance</span>
+                <span class="balance-amount" id="userBalance">0₾</span>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="PaymentSystem.showTopUpModal()">+ შევსება</button>
+            </div>
+            <div class="balance-card bp-card">
+              <div class="balance-icon">⭐</div>
+              <div class="balance-info">
+                <span class="balance-label">BEAUTY POINTS</span>
+                <span class="balance-amount" id="userBP">0 BP</span>
+              </div>
+            </div>
+            <div class="balance-card plan-card">
+              <div class="balance-icon">💎</div>
+              <div class="balance-info">
+                <span class="balance-label" data-en="Active Plan" data-ka="აქტიური პაკეტი">აქტიური პაკეტი</span>
+                <span class="balance-amount" id="userActivePlan">
+                  <span class="no-plan" data-en="No plan" data-ka="პაკეტი არ არის">პაკეტი არ არის</span>
+                </span>
+              </div>
+              <button class="btn btn-sm btn-outline btn-packages" onclick="showPackagesModal()" data-en="Plans" data-ka="პაკეტები">პაკეტები</button>
+            </div>
+          </div>
+
+          <!-- Gamification Stats -->
+          <div class="gamification-section">
+            <div class="level-card">
+              <div class="level-info">
+                <div class="level-badge">
+                  <span class="level-icon">🏆</span>
+                  <span class="level-text" id="userLevel">1</span>
+                </div>
+                <div class="level-details">
+                  <span class="level-title">დონე / Level</span>
+                  <span class="level-subtitle" id="levelName">Beginner</span>
+                </div>
+              </div>
+              <div class="level-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" id="levelProgress" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="levelProgressText">0 / 100 XP</span>
+              </div>
+              <div class="next-reward" id="nextReward">🎁 Level 5: +50 BP (500 XP-მდე)</div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-content">
+                  <span class="stat-value" id="userStreak">0</span>
+                  <span class="stat-label">სტრიქი / Streak</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-content">
+                  <span class="stat-value" id="totalBookings">0</span>
+                  <span class="stat-label">ჯავშნები / Bookings</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🏅</div>
+                <div class="stat-content">
+                  <span class="stat-value" id="achievementCount">0</span>
+                  <span class="stat-label">მიღწევები / Achievements</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="achievements-section">
+              <h4>🎖️ მიღწევები / Achievements</h4>
+              <div class="achievements-grid" id="achievementsList">
+                <!-- Achievements will be rendered here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="profile-actions">
+            <button class="btn btn-outline" onclick="showEditProfile()">
+              <span>✏️ პროფილის რედაქტირება</span>
+            </button>
+            <button class="btn btn-primary" onclick="PaymentSystem.showTopUpModal()">
+              <span>💳 ბალანსის შევსება</span>
+            </button>
+            <button class="btn btn-outline" onclick="navigate('#tariffs')">
+              <span>💎 ტარიფების ნახვა</span>
+            </button>
+          </div>
+
+          <!-- Referral Section -->
+          <div class="profile-section referral-section">
+            <h3>🎁 რეფერალ პროგრამა / Referral Program</h3>
+            <div class="referral-card">
+              <div class="referral-info">
+                <p data-ka="მოიწვიე მეგობარი და მიიღე 20 BP ბონუსი!" data-en="Invite a friend and get 20 BP bonus!">
+                  მოიწვიე მეგობარი და მიიღე 20 BP ბონუსი! / Invite a friend and get 20 BP bonus!
+                </p>
+                <div class="referral-code-box">
+                  <span class="referral-label">თქვენი კოდი / Your Code:</span>
+                  <div class="referral-code" id="referralCode">BP-XXXX</div>
+                  <button class="btn btn-sm btn-outline" onclick="copyReferralCode()">📋 კოპირება</button>
+                </div>
+              </div>
+              <div class="referral-stats">
+                <div class="referral-stat">
+                  <span class="referral-stat-value" id="referralCount">0</span>
+                  <span class="referral-stat-label">მოწვეული / Invited</span>
+                </div>
+                <div class="referral-stat">
+                  <span class="referral-stat-value" id="referralBonus">0 BP</span>
+                  <span class="referral-stat-label">მიღებული / Earned</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Info Card -->
+          <!-- Внутри #clientProfile -->
+<div class="profile-section user-info-card">
+  
+  <!-- КНОПКИ ДЕЙСТВИЙ -->
+  <div class="profile-actions">
+    <button class="btn btn-outline" onclick="showEditProfile()">✎ რედაქტირება</button>
+  </div>
+
+  <!-- РЕЖИМ ПРОСМОТРА (По умолчанию виден) -->
+  <div id="viewProfileInfo">
+    <h2>პირადი ინფორმაცია</h2>
+    
+    <div class="info-row">
+      <span class="info-label">სახელი:</span>
+      <span class="info-value" id="profileFullName">სახელი გვარი</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">ტელეფონი:</span>
+      <span class="info-value" id="profilePhone">+995 ...</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">დაბადების თარიღი:</span>
+      <span class="info-value" id="profileBirthDate">...</span>
+    </div>
+  </div>
+
+  <!-- РЕЖИМ РЕДАКТИРОВАНИЯ (Скрыт по умолчанию) -->
+  <div id="editProfileCard" style="display: none;">
+    <h2>პროფილის რედაქტირება</h2>
+    
+    <div class="form-group">
+      <label>სახელი</label>
+      <input type="text" id="editFirstName" class="form-input" placeholder="სახელი">
+    </div>
+    <div class="form-group">
+      <label>გვარი</label>
+      <input type="text" id="editLastName" class="form-input" placeholder="გვარი">
+    </div>
+    <div class="form-group">
+      <label>ტელეფონი</label>
+      <input type="tel" id="editPhone" class="form-input" placeholder="5XX XX XX XX">
+    </div>
+    <div class="form-group">
+      <label>დაბადების თარიღი</label>
+      <input type="date" id="editBirthDate" class="form-input">
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveProfile()">შენახვა</button>
+      <button class="btn btn-outline" onclick="cancelEditProfile()">გაუქმება</button>
+    </div>
+  </div>
+
+</div>
+
+          <!-- Active Tariffs -->
+          <div class="profile-section">
+            <h3>აქტიური ტარიფები</h3>
+            <div id="activeTariffs"></div>
+          </div>
+
+          <!-- Available Slots -->
+          <div class="profile-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+              <h3>📅 ხელმისაწვდომი სლოტები</h3>
+              <div class="slots-filters" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <select id="slotsDateFilter" class="form-input" style="width: auto; min-width: 140px;" onchange="loadAvailableSlots()">
+                  <option value="">ყველა თარიღი</option>
+                </select>
+                <select id="slotsCategoryFilter" class="form-input" style="width: auto; min-width: 140px;" onchange="loadAvailableSlots()">
+                  <option value="">ყველა კატეგორია</option>
+                  <option value="თმა">💇 თმა</option>
+                  <option value="ფრჩხილები">💅 ფრჩხილები</option>
+                  <option value="წარბები">👁️ წარბები</option>
+                  <option value="მაკიაჟი">💄 მაკიაჟი</option>
+                  <option value="სახე">✨ სახე</option>
+                  <option value="მასაჟი">💆 მასაჟი</option>
+                </select>
+              </div>
+            </div>
+            <div id="availableSlotsContainer" style="max-height: 400px; overflow-y: auto;"></div>
+          </div>
+
+          <!-- My Bookings -->
+          <div class="profile-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3>ჩემი ჯავშნები</h3>
+              <button class="btn btn-primary" onclick="openBookingModal()">➕ ახალი ჯავშანი</button>
+            </div>
+            <div id="userBookings"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Salon/Business Section -->
+    <section id="salon" class="page-section">
+      <div class="container">
+        <!-- Salon Login -->
+        <div class="auth-card" id="salonLoginCard">
+          <div class="card-header">
+            <h2>🏢 სალონის პანელი</h2>
+            <p>სალონის პარტნიორის შესვლა</p>
+          </div>
+          <form class="auth-form" id="salonAuthForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="salonEmail">ელ-ფოსტა *</label>
+              <input type="email" id="salonEmail" class="form-input" placeholder="salon@beautypass.ge" required>
+            </div>
+            <div class="form-group">
+              <label for="salonPassword">პაროლი *</label>
+              <input type="password" id="salonPassword" class="form-input" placeholder="••••••••" required>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary btn-block" onclick="loginSalon()">შესვლა</button>
+            </div>
+            <p class="text-center text-muted" style="margin-top: 16px; font-size: 0.9rem;">
+              სალონის ანგარიშის მისაღებად დაგვიკავშირდით<br>
+              <a href="mailto:partners@beautypass.ge">partners@beautypass.ge</a>
+            </p>
+          </form>
+          
+          <!-- 2FA Card for Salon (hidden by default) -->
+          <div id="salon2FACard" style="display: none; margin-top: 20px;">
+            <div class="form-group">
+              <label>დადასტურების კოდი</label>
+              <input type="text" id="salon2FACode" class="form-input" placeholder="6 ციფრიანი კოდი" maxlength="6">
+            </div>
+            <button class="btn btn-primary btn-block" onclick="verifySalon2FA()">დადასტურება</button>
+          </div>
+        </div>
+
+        <!-- Salon Dashboard -->
+        <div class="dashboard-container" id="salonDashboard" style="display: none;">
+          <div class="dashboard-header">
+            <div>
+              <h2 id="dashboardSalonName">🏢 სალონის პანელი</h2>
+              <p id="dashboardSalonEmail" class="text-muted">email@example.com</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="openQRScanner()">📷 QR სკანერი</button>
+              <button class="btn btn-outline" onclick="logoutSalon()">გამოსვლა</button>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchSalonTab('slots')">📅 სლოტები</button>
+            <button class="admin-tab" onclick="switchSalonTab('specialists')">👤 სპეციალისტები</button>
+            <button class="admin-tab" onclick="switchSalonTab('gallery')">📸 გალერეა</button>
+            <button class="admin-tab" onclick="switchSalonTab('bookings')">📋 ჯავშნები</button>
+            <button class="admin-tab" onclick="switchSalonTab('analytics')">📊 ანალიტიკა</button>
+            <button class="admin-tab" onclick="switchSalonTab('settings')">⚙️ პარამეტრები</button>
+          </div>
+
+          <!-- Tab Content -->
+          <div id="salonTabContent"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Policy Pages -->
+    <section id="policy" class="page-section">
+      <div class="container">
+        <div class="policy-content">
+          <h1 data-en="Privacy Policy" data-ka="კონფიდენციალურობის პოლიტიკა">კონფიდენციალურობის პოლიტიკა / Privacy Policy</h1>
+          <p class="text-muted"><strong data-en="Last updated:" data-ka="ბოლო განახლება:">ბოლო განახლება:</strong> 15.01.2026</p>
+          
+          <div class="policy-section">
+            <h3 data-en="1. Introduction" data-ka="1. შესავალი">1. შესავალი / Introduction</h3>
+            <p data-en="BeautyPass ('we', 'our', 'us') respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and protect your information when you use our platform." data-ka="BeautyPass ('ჩვენ', 'ჩვენი') პატივს სცემს თქვენს კონფიდენციალურობას და ვალდებულია დაიცვას თქვენი პერსონალური მონაცემები. ეს კონფიდენციალურობის პოლიტიკა განმარტავს, თუ როგორ ვაგროვებთ, ვიყენებთ და ვიცავთ თქვენს ინფორმაციას.">BeautyPass პატივს სცემს თქვენს კონფიდენციალურობას და ვალდებულია დაიცვას თქვენი პერსონალური მონაცემები.</p>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="2. Data We Collect" data-ka="2. მონაცემები, რომელსაც ვაგროვებთ">2. მონაცემები, რომელსაც ვაგროვებთ / Data We Collect</h3>
+            <ul>
+              <li data-en="Personal information: name, email, phone number" data-ka="პერსონალური ინფორმაცია: სახელი, ელ-ფოსტა, ტელეფონი">პერსონალური ინფორმაცია: სახელი, ელ-ფოსტა, ტელეფონი</li>
+              <li data-en="Booking history and preferences" data-ka="ჯავშნების ისტორია და პრეფერენციები">ჯავშნების ისტორია და პრეფერენციები</li>
+              <li data-en="Payment information (processed securely)" data-ka="გადახდის ინფორმაცია (უსაფრთხოდ დამუშავებული)">გადახდის ინფორმაცია (უსაფრთხოდ დამუშავებული)</li>
+              <li data-en="Device and usage data" data-ka="მოწყობილობისა და გამოყენების მონაცემები">მოწყობილობისა და გამოყენების მონაცემები</li>
+            </ul>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="3. How We Use Your Data" data-ka="3. როგორ ვიყენებთ თქვენს მონაცემებს">3. როგორ ვიყენებთ თქვენს მონაცემებს / How We Use Your Data</h3>
+            <ul>
+              <li data-en="To provide and improve our services" data-ka="სერვისების მიწოდება და გაუმჯობესება">სერვისების მიწოდება და გაუმჯობესება</li>
+              <li data-en="To process bookings and payments" data-ka="ჯავშნების და გადახდების დამუშავება">ჯავშნების და გადახდების დამუშავება</li>
+              <li data-en="To send important updates and promotions" data-ka="მნიშვნელოვანი განახლებებისა და აქციების გაგზავნა">მნიშვნელოვანი განახლებებისა და აქციების გაგზავნა</li>
+              <li data-en="To ensure platform security" data-ka="პლატფორმის უსაფრთხოების უზრუნველყოფა">პლატფორმის უსაფრთხოების უზრუნველყოფა</li>
+            </ul>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="4. Data Protection" data-ka="4. მონაცემთა დაცვა">4. მონაცემთა დაცვა / Data Protection</h3>
+            <p data-en="We implement industry-standard security measures including encryption, secure servers, and regular security audits to protect your data." data-ka="ვიყენებთ ინდუსტრიის სტანდარტულ უსაფრთხოების ზომებს, მათ შორის დაშიფვრას, უსაფრთხო სერვერებს და რეგულარულ უსაფრთხოების აუდიტს.">ვიყენებთ ინდუსტრიის სტანდარტულ უსაფრთხოების ზომებს თქვენი მონაცემების დასაცავად.</p>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="5. Your Rights" data-ka="5. თქვენი უფლებები">5. თქვენი უფლებები / Your Rights</h3>
+            <ul>
+              <li data-en="Access your personal data" data-ka="თქვენს პერსონალურ მონაცემებზე წვდომა">თქვენს პერსონალურ მონაცემებზე წვდომა</li>
+              <li data-en="Request data correction or deletion" data-ka="მონაცემების გასწორების ან წაშლის მოთხოვნა">მონაცემების გასწორების ან წაშლის მოთხოვნა</li>
+              <li data-en="Opt-out of marketing communications" data-ka="მარკეტინგული შეტყობინებების გამორთვა">მარკეტინგული შეტყობინებების გამორთვა</li>
+              <li data-en="Data portability" data-ka="მონაცემთა პორტაბელურობა">მონაცემთა პორტაბელურობა</li>
+            </ul>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="6. Contact Us" data-ka="6. დაგვიკავშირდით">6. დაგვიკავშირდით / Contact Us</h3>
+            <p data-en="For privacy-related inquiries, contact us at: privacy@beautypass.ge" data-ka="კონფიდენციალურობასთან დაკავშირებული შეკითხვებისთვის, დაგვიკავშირდით: privacy@beautypass.ge">კონფიდენციალურობასთან დაკავშირებული შეკითხვებისთვის: <strong>privacy@beautypass.ge</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="refund" class="page-section">
+      <div class="container">
+        <div class="policy-content">
+          <h1 data-en="Refund Policy" data-ka="დაბრუნების პოლიტიკა">დაბრუნების პოლიტიკა / Refund Policy</h1>
+          <p class="text-muted"><strong data-en="Last updated:" data-ka="ბოლო განახლება:">ბოლო განახლება:</strong> 15.01.2026</p>
+          
+          <div class="policy-section">
+            <h3 data-en="1. Package Refunds" data-ka="1. პაკეტის დაბრუნება">1. პაკეტის დაბრუნება / Package Refunds</h3>
+            <p data-en="Unused package credits can be refunded within 14 days of purchase. Used credits are non-refundable." data-ka="გამოუყენებელი პაკეტის კრედიტები შეიძლება დაბრუნდეს შეძენიდან 14 დღის განმავლობაში. გამოყენებული კრედიტები არ ბრუნდება.">გამოუყენებელი პაკეტის კრედიტები შეიძლება დაბრუნდეს შეძენიდან 14 დღის განმავლობაში.</p>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="2. Booking Cancellations" data-ka="2. ჯავშნის გაუქმება">2. ჯავშნის გაუქმება / Booking Cancellations</h3>
+            <ul>
+              <li data-en="Free cancellation up to 24 hours before appointment" data-ka="უფასო გაუქმება ვიზიტამდე 24 საათით ადრე">უფასო გაუქმება ვიზიტამდე 24 საათით ადრე</li>
+              <li data-en="50% refund for cancellations 12-24 hours before" data-ka="50% დაბრუნება 12-24 საათით ადრე გაუქმებისას">50% დაბრუნება 12-24 საათით ადრე გაუქმებისას</li>
+              <li data-en="No refund for cancellations less than 12 hours before" data-ka="არ ბრუნდება 12 საათზე ნაკლები დროით ადრე გაუქმებისას">არ ბრუნდება 12 საათზე ნაკლები დროით ადრე გაუქმებისას</li>
+            </ul>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="3. Balance Refunds" data-ka="3. ბალანსის დაბრუნება">3. ბალანსის დაბრუნება / Balance Refunds</h3>
+            <p data-en="Balance top-ups are non-refundable but can be used for any service on the platform." data-ka="ბალანსის შევსება არ ბრუნდება, მაგრამ შეიძლება გამოყენებულ იქნას პლატფორმის ნებისმიერი სერვისისთვის.">ბალანსის შევსება არ ბრუნდება, მაგრამ შეიძლება გამოყენებულ იქნას ნებისმიერი სერვისისთვის.</p>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="4. Service Disputes" data-ka="4. სერვისის დავები">4. სერვისის დავები / Service Disputes</h3>
+            <p data-en="If you're unsatisfied with a service, please report within 48 hours. We'll investigate and offer appropriate compensation." data-ka="თუ უკმაყოფილო ხართ სერვისით, გთხოვთ შეატყობინოთ 48 საათის განმავლობაში. ჩვენ გამოვიძიებთ და შემოგთავაზებთ შესაბამის კომპენსაციას.">თუ უკმაყოფილო ხართ სერვისით, გთხოვთ შეატყობინოთ 48 საათის განმავლობაში.</p>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="5. How to Request Refund" data-ka="5. როგორ მოითხოვოთ დაბრუნება">5. როგორ მოითხოვოთ დაბრუნება / How to Request Refund</h3>
+            <ol>
+              <li data-en="Contact support at refund@beautypass.ge" data-ka="დაუკავშირდით მხარდაჭერას: refund@beautypass.ge">დაუკავშირდით: <strong>refund@beautypass.ge</strong></li>
+              <li data-en="Provide your booking/transaction ID" data-ka="მიუთითეთ თქვენი ჯავშნის/ტრანზაქციის ID">მიუთითეთ თქვენი ჯავშნის/ტრანზაქციის ID</li>
+              <li data-en="Describe the reason for refund" data-ka="აღწერეთ დაბრუნების მიზეზი">აღწერეთ დაბრუნების მიზეზი</li>
+              <li data-en="Refunds processed within 5-7 business days" data-ka="დაბრუნება მუშავდება 5-7 სამუშაო დღეში">დაბრუნება მუშავდება 5-7 სამუშაო დღეში</li>
+            </ol>
+          </div>
+          
+          <div class="policy-section">
+            <h3 data-en="6. BeautyPoints" data-ka="6. BeautyPoints">6. BeautyPoints</h3>
+            <p data-en="BeautyPoints are non-refundable and non-transferable. They expire 12 months after earning." data-ka="BeautyPoints არ ბრუნდება და არ გადაეცემა. ისინი იწურება მიღებიდან 12 თვის შემდეგ.">BeautyPoints არ ბრუნდება და არ გადაეცემა. ისინი იწურება მიღებიდან 12 თვის შემდეგ.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Platform -->
+    <section id="community" class="page-section">
+      <div id="communityContainer" class="community-container">
+        <!-- Community content will be loaded by CommunityApp -->
+      </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="page-section">
+      <div class="container">
+        <!-- Admin Login Card -->
+        <div class="auth-card" id="adminLoginCard">
+          <div class="card-header">
+            <h2>👑 Admin Panel</h2>
+            <p>ადმინისტრატორის პანელი / Administrator Panel</p>
+          </div>
+          <form class="auth-form" id="adminAuthForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="adminEmail">Email</label>
+              <input type="email" id="adminEmail" class="form-input" placeholder="admin@beautypass.ge" required>
+            </div>
+            <div class="form-group">
+              <label for="adminPassword">Password</label>
+              <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary btn-block" onclick="loginAdmin()">Sign In</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+          <div class="admin-header">
+            <div>
+              <h2>👑 Admin Panel</h2>
+              <p id="adminEmailDisplay"></p>
+            </div>
+            <button class="btn btn-outline" onclick="logoutAdmin()">გამოსვლა / Logout</button>
+          </div>
+
+          <!-- Admin Tabs -->
+          <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchAdminTab('stats')">📊 სტატისტიკა</button>
+            <button class="admin-tab" onclick="switchAdminTab('users')">👥 მომხმარებლები</button>
+            <button class="admin-tab" onclick="switchAdminTab('salons')">🏢 სალონები</button>
+            <button class="admin-tab" onclick="switchAdminTab('salonFinance')">💰 სალონების ფინანსები</button>
+            <button class="admin-tab" onclick="switchAdminTab('services')">💅 სერვისები</button>
+            <button class="admin-tab" onclick="switchAdminTab('bookings')">📅 ჯავშნები</button>
+            <button class="admin-tab" onclick="switchAdminTab('tariffs')">💎 ტარიფები</button>
+            <button class="admin-tab" onclick="switchAdminTab('content')">📝 კონტენტი</button>
+          </div>
+
+          <!-- Tab Content -->
+          <div class="admin-tab-content" id="adminTabContent">
+            <div class="loading-spinner">იტვირთება...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Booking Modal -->
+  <div class="modal" id="bookingModal">
+    <div class="modal-overlay" onclick="closeModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle" data-en="Booking" data-ka="ჯავშანი">ჯავშანი / Booking</h3>
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Global Chat Modal -->
+  <div class="modal" id="chatModal">
+    <div class="modal-overlay" onclick="closeChatModal()"></div>
+    <div class="modal-content chat-modal-content">
+      <div class="modal-header">
+        <h3>💬 Messages</h3>
+        <button class="modal-close" onclick="closeChatModal()" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body chat-modal-body">
+        <div class="chat-container">
+          <div class="chat-sidebar">
+            <div class="chat-search">
+              <input type="text" placeholder="Search conversations..." id="chatSearch" onkeyup="filterChatConversations(this.value)">
+            </div>
+            <div class="chat-conversations" id="chatConversations"></div>
+          </div>
+          <div class="chat-main">
+            <div class="chat-header" id="chatHeader">
+              <div class="chat-user-info">
+                <div class="chat-avatar">👤</div>
+                <div>
+                  <div class="chat-user-name" id="chatUserName">Select a conversation</div>
+                  <div class="chat-user-status" id="chatUserStatus">Online</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-empty-state">
+                <p>Select a conversation to start messaging</p>
+              </div>
+            </div>
+            <div class="chat-input-container">
+              <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+              <button class="chat-send-btn" onclick="sendChatMessage()">
+                <span>Send</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <span class="logo-text footer-logo-text">BeautyPass</span>
+          </div>
+            <p data-en="Your beauty, our care" data-ka="ჩვენ ვზრუნავთ შენს სილამაზეზე">ჩვენ ვზრუნავთ შენს სილამაზეზე</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">F</a>
+            <a href="#" aria-label="Instagram">I</a>
+            <a href="#" aria-label="Twitter">T</a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4 data-en="Quick Links" data-ka="სწრაფი ლინკები">სწრაფი ლინკები / Quick Links</h4>
+          <ul>
+            <li><a href="#tariffs" onclick="navigate('#tariffs')" data-en="Tariffs" data-ka="ტარიფები">ტარიფები / Tariffs</a></li>
+            <li><a href="#services" onclick="navigate('#services')" data-en="Services" data-ka="სერვისები">სერვისები / Services</a></li>
+            <li><a href="javascript:void(0)" onclick="showAboutModal()" data-en="About" data-ka="ჩვენს შესახებ">ჩვენს შესახებ / About</a></li>
+            <li><a href="#client" onclick="navigate('#client')" data-en="My Profile" data-ka="ჩემი პროფილი">ჩემი პროფილი / My Profile</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 data-en="Information" data-ka="ინფორმაცია">ინფორმაცია / Information</h4>
+          <ul>
+            <li><a href="#policy" onclick="navigate('#policy')" data-en="Privacy" data-ka="კონფიდენციალურობა">კონფიდენციალურობა / Privacy</a></li>
+            <li><a href="#refund" onclick="navigate('#refund')" data-en="Refund" data-ka="დაბრუნება">დაბრუნება / Refund</a></li>
+            <li><a href="#" onclick="showContact()" data-en="Contact" data-ka="კონტაქტი">კონტაქტი / Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 data-en="For Business" data-ka="ბიზნესისთვის">ბიზნესისთვის / For Business</h4>
+          <ul>
+            <li><a href="#salon" onclick="navigate('salon')" data-en="Salon Login" data-ka="სალონის შესვლა">სალონის შესვლა / Salon Login</a></li>
+            <li id="adminPanelLink" style="display: none;"><a href="#adminPanel" onclick="navigate('adminPanel')" data-en="Admin Panel" data-ka="ადმინ პანელი">👑 ადმინ პანელი / Admin Panel</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 data-en="Contact" data-ka="კონტაქტი">კონტაქტი / Contact</h4>
+          <p>Email: info@beautypass.ge</p>
+          <p>Phone: +995 XXX XX XX XX</p>
+          <p data-en="Tbilisi, Georgia" data-ka="თბილისი, საქართველო">თბილისი, საქართველო / Tbilisi, Georgia</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear"></span> Beauty Pass. <span data-en="All rights reserved." data-ka="ყველა უფლება დაცულია.">ყველა უფლება დაცულია. / All rights reserved.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="api-client.js?v=20260106"></script>
+    <script src="global-data.js?v=20260106"></script>
+    <script src="modal-functions.js?v=20260106"></script>
+    <script src="app.js?v=20260106-FIX"></script>
+    <script src="salon-chat-functions.js?v=20260107-FIX2"></script>
+    <script src="messenger.js?v=20260107-FIX3"></script>
+    <script src="payment-system.js?v=20260106"></script>
+    <!-- New Features -->
+    <script src="tbilisi-map.js?v=20260116-REVIEWS"></script>
+    <script src="beauty-bot.js?v=20260107-FIX2"></script>
+    <script src="community.js?v=20260116-FIX17"></script>
+    <script>
+      // Map Filter Functions
+      let currentMapCategory = 'all';
+      let currentMapRating = '';
+      let currentMapSearch = '';
+      
+      function handleMapSearch() {
+        currentMapSearch = document.getElementById('mapSearchInput').value;
+        applyMapFilters();
+      }
+      
+      function handleCategoryFilter(category, button) {
+        currentMapCategory = category;
+        // Update active state
+        document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+        button.classList.add('active');
+        applyMapFilters();
+      }
+      
+      function handleRatingFilter() {
+        currentMapRating = document.getElementById('ratingFilter').value;
+        applyMapFilters();
+      }
+      
+      function applyMapFilters() {
+        if (typeof TbilisiMap !== 'undefined') {
+          TbilisiMap.filterSalons({
+            category: currentMapCategory,
+            rating: currentMapRating,
+            search: currentMapSearch
+          });
+        }
+      }
+      
+      // Initialize new components after DOM ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Tbilisi Map
+        setTimeout(() => {
+          if (typeof TbilisiMap !== 'undefined') {
+            TbilisiMap.init('tbilisiMap');
+          }
+        }, 1000);
+        
+        // Initialize Specialist System
+        if (typeof SpecialistSystem !== 'undefined') {
+          SpecialistSystem.renderFilters('specialistFilters');
+          SpecialistSystem.renderList('specialistsList');
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
